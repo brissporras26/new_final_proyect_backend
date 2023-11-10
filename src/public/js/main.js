@@ -6,7 +6,24 @@ $(function (){
     const $messageBox = $('#message');
     const $chat = $('#chat');
 
-    
+    //obtaining DOM elments form the nicknameform
+
+    const $nickForm =  $('#nickForm');
+    const $nickError =  $('#nickError');
+    const $nickname =  $('#nickname');
+
+
+    const $users = $('usernames');
+
+    $nickForm.submit8(e => {
+        e.preventDefault();
+        socket.emit('new user', $nickname.val(), data => {
+            
+
+        });
+    });
+
+
     //events
     $messageForm.submit( e => {
         e.preventDefault();

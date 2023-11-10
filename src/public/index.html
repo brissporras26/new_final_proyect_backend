@@ -21,18 +21,19 @@
         <div class="card-body">
             <form id="nickForm">
                 <input type="text" id="nickname" class="form-control">
-                <button type="submit" class="btn btn-warning btn-block mt-2">ENVIAR</button>
-    
+                <button type="submit" class="btn btn-warning btn-block mt-2">
+                    <i class="fas fa-location-arrow"></i>send
+                </button>
             </form>
         </div>
     </div>
 
 
     <div class="container" id="contentWrap">
-        <div class="col-md-6 mt-4">
-            <div class="card">
+        <div class="col-md-6 offset-md-1  mt-4">
+            <div class="card ">
                 <div class="card-header">
-                    <h4>Let's chat</h4>
+                    <h4>Lets chat</h4>
                 </div>
                 <div id="chat" class="card-body"></div>
                 <form id="message-form" class="card-footer">
@@ -43,9 +44,21 @@
                         </div>
                     </div>
                 </form>
+
+
             </div>
         </div>
+        <div class="card col-md-3">
+            <div class="card-header">
+                <h3>
+                    users
+                </h3>
+            </div>
+        </div>
+        </div>
     </div>
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" 

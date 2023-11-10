@@ -1,4 +1,7 @@
 module.exports = function functionName(io){
+
+    let nicknames = [];
+    
     io.on('connection', (socket) => {
         console.log('New user connected');
         
