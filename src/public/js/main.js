@@ -13,13 +13,20 @@ $(function (){
     const $nickname =  $('#nickname');
 
 
-    const $users = $('usernames');
+    const $users = $('#usernames');
 
-    $nickForm.submit8(e => {
+    $nickForm.submit(e => {
         e.preventDefault();
-        socket.emit('new user', $nickname.val(), data => {
-            
-
+        socket.emit('new user', $nickname.val(), data =>{
+            if(data) {
+                $('#nickWrap').hide();
+                $('#contentWrap').show();
+            }else{
+                $nickError.html(<div class= "alert alert-danger">
+                    that username already exist
+                </div>);
+            }
+            $nickname.val('');
         });
     });
 
