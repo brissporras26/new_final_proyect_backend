@@ -16,12 +16,25 @@ module.exports = function(io){
                 socket.nickname = data;
                 nicknames.push(socket.nickname);
                 io.emit('usernames', nicknames);
+                updateNicknames();
             }
         });
 
-        socket.on('send message', function (data){
-            io.emit('new message', data);
+        socket.on('send message', data =>{
+            io.emit('new message', {
+                msg:data,
+                nick: socket.nickname });
+
+
+        });
+        socket.on('disconnect', data => {
+            if(!socket.nickname) return;
+            nicknames.splice(nicknames.indexOf(socket.nickname), 1);
+            updateNicknames();
         });
 
+        function updateNicknames(){
+            io.sockets.emit('usernames', nicknames);
+        }
     });
 }

@@ -37,13 +37,14 @@ $(function (){
 
 
     socket.on('new message', function(data) {
-        $chat.append(data + '<br/>');
+        $chat.append(`<b>${data.nick}</b>: ${data.msg}</br>`);
     });
+    
 
     socket.on('usernames', data => {
         let html = '';
         for (let i =0; i < data.length; i++){
-            html +='<p>${data[i]}</p>';
+            html += `<p>${data[i]}</p>`;
         }
         $users.html(html);
         
