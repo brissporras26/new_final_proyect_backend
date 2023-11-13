@@ -11,10 +11,9 @@ $(function (){
     const $nickForm =  $('#nickForm');
     const $nickError =  $('#nickError');
     const $nickname =  $('#nickname');
-
-
+    
     const $users = $('#usernames');
-
+    
     $nickForm.submit(e => {
         e.preventDefault();
         socket.emit('new user', $nickname.val(), data =>{
@@ -22,15 +21,13 @@ $(function (){
                 $('#nickWrap').hide();
                 $('#contentWrap').show();
             }else{
-                $nickError.html(<div class= "alert alert-danger">
-                    that username already exist
-                </div>);
+                $nickError.html('<div class="alert alert-danger">that username already exists</div>');
             }
             $nickname.val('');
         });
     });
 
-
+    
     //events
     $messageForm.submit( e => {
         e.preventDefault();
@@ -42,4 +39,14 @@ $(function (){
     socket.on('new message', function(data) {
         $chat.append(data + '<br/>');
     });
+
+    socket.on('usernames', data => {
+        let html = '';
+        for (let i =0; i < data.length; i++){
+            html +='<p>${data[i]}</p>';
+        }
+        $users.html(html);
+        
+    });
+
 });
