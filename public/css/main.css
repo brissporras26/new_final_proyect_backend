@@ -8,3 +8,27 @@ body{
 #contentWrap {
     display: none;
 }
+
+.message {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 5px;
+    max-width: 70%;
+    position: relative; /* Añadido para establecer la posición relativa en el contenedor del mensaje */
+}
+
+.message .time {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #aaa; /* Color de la hora */
+}
+
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
