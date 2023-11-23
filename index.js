@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 //settings
 app.set('port', process.env.PORT || 3000);
-require('./sockets')(io);
+require('./public/js/sockets')(io);
 
 
 
