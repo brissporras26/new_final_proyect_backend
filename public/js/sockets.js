@@ -1,6 +1,30 @@
+const crypto = require('crypto');
+const algorithm = 'aes-256-cbc';
+const ENCRYPTION_KEY = 'Put_Your_Password_Here'; 
+const IV_LENGTH = 16;
 module.exports = function(io){
 
     let users = {};
+
+
+
+    function encrypt(text) {
+        let iv = crypto.randomBytes(IV_LENGTH);
+        let cipher = crypto.createCipheriv(algorithm, Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+        let encrypted = cipher.update(text);
+        encrypted = Buffer.concat([encrypted, cipher.final()]);
+        return iv.toString('hex') + ':' + encrypted.toString('hex');
+    }
+    
+    function decrypt(text) {
+        let textParts = text.split(':');
+        let iv = Buffer.from(textParts.shift(), 'hex');
+        let encryptedText = Buffer.from(textParts.join(':'), 'hex');
+        let decipher = crypto.createDecipheriv(algorithm, Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+        let decrypted = decipher.update(encryptedText);
+        decrypted = Buffer.concat([decrypted, decipher.final()]);
+        return decrypted.toString();
+    }
 
 
     io.on('connection', socket => {
@@ -30,7 +54,7 @@ module.exports = function(io){
                     var msgBody = msg.substring(index + 1);
                     if (name in users) {
                         users[name].emit('new message', {
-                            msg: msgBody,
+                            msg: encrypt(msgBody),
                             nick: socket.nickname,
                             time: data.time
                         });
@@ -42,7 +66,7 @@ module.exports = function(io){
                 }
             } else {
                 io.emit('new message', {
-                    msg: msg,
+                    msg: encrypt(msg),
                     nick: socket.nickname,
                     time: data.time
                 });
@@ -53,7 +77,7 @@ module.exports = function(io){
             // Añadir clase 'right' si el mensaje es del propio usuario, de lo contrario, usar 'left'
             const alignmentClass = (data.nick === socket.nickname) ? 'right' : 'left';
             
-            $chat.append(`<div class="message ${alignmentClass}"><b>${data.nick}</b>: ${data.msg}<span class="time">(${data.time})</span></div>`);
+            $chat.append(`<div class="message ${alignmentClass}"><b>${data.nick}</b>: ${decrypt(data.msg)}<span class="time">(${data.time})</span></div>`);
 
         });
         
