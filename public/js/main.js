@@ -36,7 +36,9 @@ $(function () {
         const formattedTime = `${hours}:${minutes}`;
 
         socket.emit('send message', { message: messageContent, time: formattedTime }, data => {
-            $chat.append(`<p class="error">${data}</p>`);
+            if (data) {
+                $chat.append(`<p class="error">${data}</p>`);
+            }
         });
 
         $messageBox.val('');
@@ -44,6 +46,11 @@ $(function () {
 
     socket.on('new message', function (data) {
         $chat.append(`<b>${data.nick}</b> (${data.time}): ${data.msg}</br>`);
+    });
+
+    // Manejo de mensajes privados
+    socket.on('whisper', function(data) {
+        $chat.append(`<p class="whisper"><b>${data.nick}</b> (whisper): ${data.msg}</p>`);
     });
 
     socket.on('usernames', data => {
