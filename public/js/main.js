@@ -20,7 +20,7 @@ $(function () {
                 $('#nickWrap').hide();
                 $('#contentWrap').show();
             } else {
-                $nickError.html('<div class="alert alert-danger">that username already exists</div>');
+                $nickError.html('<div class="alert alert-danger">That username already exists.</div>');
             }
             $nickname.val('');
         });
@@ -50,13 +50,13 @@ $(function () {
 
     // Manejo de mensajes privados
     socket.on('whisper', function(data) {
-        $chat.append(`<p class="whisper"><b>${data.nick}</b> (whisper): ${data.msg}</p>`);
+        $chat.append(`<p class="whisper"><b>${data.nick}</b> (${data.time}): ${data.msg}</p>`);
     });
 
     socket.on('usernames', data => {
         let html = '';
         for (let i = 0; i < data.length; i++) {
-            html += `<p>${data[i]}</p>`;
+            html += `<p>${data[i]}</p>`; // Asumiendo que solo deseas mostrar los nombres de usuario
         }
         $users.html(html);
     });
